@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Void Space | Paraguay</title>
     <style>
-        /* FONDO Y ESTRELLAS */
+        /* FONDO Y PARTÍCULAS MÁGICAS */
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             background: #000; overflow: hidden;
@@ -17,14 +17,29 @@
             z-index: 0; background: radial-gradient(circle at center, #001220 0%, #000 100%);
         }
 
+        /* NUEVO ESTILO DE PARTÍCULA MÁGICA */
         .star {
             position: absolute; background: white; border-radius: 50%;
-            opacity: 0; animation: twinkle var(--duration) infinite ease-in-out;
+            opacity: 0;
+            /* Un ligero brillo para el efecto mágico */
+            box-shadow: 0 0 3px 1px rgba(255, 255, 255, 0.3);
+            /* Nueva animación de flotar hacia arriba */
+            animation: magic-drift var(--duration) infinite linear;
         }
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); }
+        /* ANIMACIÓN DE FLOTACIÓN MÁGICA */
+        @keyframes magic-drift {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0.5);
+            }
+            10% {
+                opacity: 0.8; /* Aparecen rápido */
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-120px) scale(0.2); /* Flotan hacia arriba y se achican */
+            }
         }
 
         /* TARJETA CON NEÓN GIRATORIO */
@@ -33,7 +48,7 @@
             background: rgba(0, 0, 0, 0.9);
             border-radius: 25px; display: flex; flex-direction: column;
             align-items: center; justify-content: center; z-index: 10;
-            overflow: hidden; /* Esto corta lo de adentro, por eso sacamos la mariposa */
+            overflow: hidden;
             box-shadow: 0 0 50px rgba(129, 91, 255, 0.1);
         }
 
@@ -61,12 +76,21 @@
             font-weight: 300; text-shadow: 0 0 10px rgba(255,255,255,0.5);
         }
 
-        /* FOTO DE ALEE */
+        /* FOTO DE ALEE CON ZOOM AL PASAR EL MOUSE */
         .profile-pic {
             width: 170px; height: 170px; border-radius: 50%;
             border: 1px solid rgba(255, 255, 255, 0.3);
             background: url('https://xatimg.com/image/vtWuGxDGgWZG.png') center/cover;
             box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+            /* Agregamos una transición suave para el efecto */
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            cursor: pointer; /* Cambia el cursor para indicar que es interactivo */
+        }
+
+        /* Efecto Hover: Zoom y más brillo */
+        .profile-pic:hover {
+            transform: scale(1.15); /* Aumenta el tamaño un 15% */
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.4);
         }
 
         .nationality-info {
@@ -74,16 +98,15 @@
             font-size: 0.75rem; letter-spacing: 3px; font-weight: bold;
         }
 
-        /* ESTILO DE LA MARIPOSA (AFUERA Y TRANSPARENTE) */
+        /* ESTILO DE LA MARIPOSA */
         .mariposa-gif {
             position: fixed;
             z-index: 999;
-            /* Ubicación: ajustada para estar arriba a la derecha de la tarjeta */
             top: 17%; 
             left: 50%;
-            width: 250px; /* Tamaño que se vea bien */
+            width: 250px;
             height: auto;
-            mix-blend-mode: screen; /* Quita el fondo negro */
+            mix-blend-mode: screen;
             pointer-events: none;
             filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.6));
         }
@@ -96,6 +119,10 @@
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; transition: 0.4s; z-index: 100;
             backdrop-filter: blur(10px);
+        }
+        .music-btn:hover {
+            background: #ffffff; color: #000;
+            box-shadow: 0 0 20px #ffffff;
         }
     </style>
 </head>
@@ -117,17 +144,20 @@
     </audio>
 
     <script>
-        /* GENERADOR DE ESTRELLAS */
+        /* GENERADOR DE PARTÍCULAS MÁGICAS */
         const stars = document.getElementById('stars-container');
-        for (let i = 0; i < 200; i++) {
+        // Reduje un poco la cantidad para que no sea invasivo
+        for (let i = 0; i < 150; i++) {
             const star = document.createElement('div');
             star.className = 'star';
-            const size = Math.random() * 2.5 + 'px';
+            // Hacemos las partículas más pequeñas y delicadas
+            const size = Math.random() * 1.5 + 0.5 + 'px';
             star.style.width = size;
             star.style.height = size;
             star.style.left = Math.random() * 100 + '%';
             star.style.top = Math.random() * 100 + '%';
-            star.style.setProperty('--duration', (Math.random() * 4 + 3) + 's');
+            // Hacemos que floten más lento
+            star.style.setProperty('--duration', (Math.random() * 10 + 5) + 's');
             star.style.animationDelay = Math.random() * 5 + 's';
             stars.appendChild(star);
         }
@@ -135,6 +165,11 @@
         /* CONTROL DE AUDIO */
         const music = document.getElementById('bg-music');
         const btn = document.getElementById('music-trigger');
+
+        // ESTABLECER VOLUMEN INICIAL AL 60%
+        if (music) {
+            music.volume = 0.6;
+        }
         
         btn.onclick = function() {
             if (music.paused) {
