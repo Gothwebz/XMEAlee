@@ -2,183 +2,243 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Void Space | Paraguay</title>
+    <title>Void Space | Alee 🇵🇾</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
     <style>
-        /* FONDO Y PARTÍCULAS MÁGICAS */
-        body, html {
+         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             background: #000; overflow: hidden;
             display: flex; justify-content: center; align-items: center;
             font-family: 'Inter', sans-serif;
         }
-
+        #intro-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 2000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 1.2s ease-in-out, visibility 1.2s;
+        }
         #stars-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0; background: radial-gradient(circle at center, #001220 0%, #000 100%);
+            z-index: 2100; pointer-events: none;
         }
-
-        /* NUEVO ESTILO DE PARTÍCULA MÁGICA */
         .star {
             position: absolute; background: white; border-radius: 50%;
-            opacity: 0;
-            /* Un ligero brillo para el efecto mágico */
-            box-shadow: 0 0 3px 1px rgba(255, 255, 255, 0.3);
-            /* Nueva animación de flotar hacia arriba */
+            opacity: 0; box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.4);
             animation: magic-drift var(--duration) infinite linear;
         }
 
-        /* ANIMACIÓN DE FLOTACIÓN MÁGICA */
         @keyframes magic-drift {
-            0% {
-                opacity: 0;
-                transform: translateY(0) scale(0.5);
-            }
-            10% {
-                opacity: 0.8; /* Aparecen rápido */
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-120px) scale(0.2); /* Flotan hacia arriba y se achican */
-            }
+            0% { opacity: 0; transform: translateY(0) scale(0.6); }
+            15% { opacity: 0.8; }
+            100% { opacity: 0; transform: translateY(-180px) scale(0.2); }
+        }
+        .neon-btn-wrapper {
+            position: relative; width: 220px; height: 65px;
+            display: flex; justify-content: center; align-items: center;
+            border-radius: 50px; overflow: hidden;
+            z-index: 2200; transition: transform 0.3s ease;
+        }
+        .neon-btn-wrapper:hover { transform: scale(1.1); }
+        .neon-btn-wrapper::before {
+            content: ''; position: absolute; width: 150%; height: 400%;
+            background: conic-gradient(transparent, #ffffff, transparent, #ffffff, transparent);
+            animation: rotate 4s linear infinite;
+        }
+        .pasar-btn {
+            position: relative; z-index: 5; width: calc(100% - 4px); height: calc(100% - 4px);
+            background: #000; border: none; border-radius: 48px;
+            color: #ffffff; font-family: "Playfair Display", serif;
+            font-style: italic; font-size: 1.4rem; letter-spacing: 5px;
+            cursor: pointer; text-transform: uppercase;
         }
 
-        /* TARJETA CON NEÓN GIRATORIO */
         .neon-card {
             position: relative; width: 320px; height: 450px;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             border-radius: 25px; display: flex; flex-direction: column;
             align-items: center; justify-content: center; z-index: 10;
-            overflow: hidden;
-            box-shadow: 0 0 50px rgba(129, 91, 255, 0.1);
+            overflow: hidden; 
         }
-
         .neon-card::before {
-            content: ''; position: absolute;
-            width: 150%; height: 150%;
+            content: ''; position: absolute; width: 150%; height: 150%;
             background: conic-gradient(transparent, #ffffff, transparent, #ffffff, transparent);
-            animation: rotate 6s linear infinite;
-            z-index: -2;
+            animation: rotate 6s linear infinite; z-index: -2;
         }
-
         .neon-card::after {
-            content: ''; position: absolute; inset: 2px; 
-            background: #0d0d0d; border-radius: 23px; z-index: -1;
+            content: ''; position: absolute; inset: 2px; background: #0d0d0d; border-radius: 23px; z-index: -1;
+        }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .neon-numbers {
+            font-family: "Playfair Display", serif; 
+            font-style: italic;
+            font-size: 1.2rem;
+            letter-spacing: 8px;
+            margin-bottom: 15px;            
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.8)) drop-shadow(0 0 10px rgba(129, 91, 255, 0.5));
+            background: linear-gradient(
+                90deg, 
+                #ffffff 20%, 
+                #9e646c 40%,
+                #ffffff 50%, 
+                #9e646c 60%, 
+                #ffffff 80%
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;            
+            animation: numbersWave 4s linear infinite;
         }
 
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        @keyframes numbersWave {
+            0% { background-position: 200% center; }
+            100% { background-position: -200% center; }
         }
-
         .friend-name {
-            color: #fff; font-size: 2.2rem; letter-spacing: 8px;
-            margin-bottom: 25px; text-transform: uppercase;
-            font-weight: 300; text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            font-family: "Playfair Display", serif;
+            font-weight: 700; font-style: italic;
+            color: #fff; font-size: 2.8rem;
+            margin-bottom: 25px; text-shadow: 0 0 15px rgba(255,255,255,0.4);
+            display: flex; justify-content: center;
         }
+        .friend-name span { display: inline-block; margin: 0 2px; }
 
-        /* FOTO DE ALEE CON ZOOM AL PASAR EL MOUSE */
+        @keyframes fallAndSquash {
+            0% { opacity: 0; transform: translateY(-150px) scale(1); }
+            60% { opacity: 1; transform: translateY(10px) scale(1); }
+            75% { transform: translateY(0px) scale(1.4, 0.6); }
+            90% { transform: translateY(0px) scale(0.9, 1.1); }
+            100% { transform: translateY(0) scale(1); }
+        }
+        .letter-stomp { animation: fallAndSquash 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+
         .profile-pic {
             width: 170px; height: 170px; border-radius: 50%;
             border: 1px solid rgba(255, 255, 255, 0.3);
             background: url('https://xatimg.com/image/vtWuGxDGgWZG.png') center/cover;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
-            /* Agregamos una transición suave para el efecto */
-            transition: transform 0.5s ease, box-shadow 0.5s ease;
-            cursor: pointer; /* Cambia el cursor para indicar que es interactivo */
+            transition: 0.5s ease; cursor: pointer;
         }
-
-        /* Efecto Hover: Zoom y más brillo */
-        .profile-pic:hover {
-            transform: scale(1.15); /* Aumenta el tamaño un 15% */
-            box-shadow: 0 0 40px rgba(255, 255, 255, 0.4);
-        }
+        .profile-pic:hover { transform: scale(1.25); } 
 
         .nationality-info {
             color: rgba(255, 255, 255, 0.6); margin-top: 30px;
             font-size: 0.75rem; letter-spacing: 3px; font-weight: bold;
+            display: flex; align-items: center; gap: 10px;
         }
+        .flag-icon { width: 35px; height: auto; border-radius: 4px; }
 
-        /* ESTILO DE LA MARIPOSA */
+        
         .mariposa-gif {
-            position: fixed;
-            z-index: 999;
-            top: 17%; 
-            left: 50%;
-            width: 250px;
-            height: auto;
-            mix-blend-mode: screen;
-            pointer-events: none;
-            filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.6));
+            position: fixed; z-index: 2300; width: 250px;
+            mix-blend-mode: screen; pointer-events: none;
+            top: 17%; left: 55%; transform: translate(0, 0);
+            transition: all 1.5s ease-in-out;
+        }
+        .mariposa-intro-position {
+            top: 42% !important; left: 50% !important;
+            transform: translate(-50%, -50%) scale(0.8);
         }
 
         .music-btn {
             position: fixed; bottom: 40px; left: 40px;
             width: 45px; height: 45px; border-radius: 50%;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid #ffffff; color: #ffffff;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.4s; z-index: 100;
-            backdrop-filter: blur(10px);
-        }
-        .music-btn:hover {
-            background: #ffffff; color: #000;
-            box-shadow: 0 0 20px #ffffff;
+            background: rgba(0, 0, 0, 0.5); border: 1px solid #ffffff;
+            color: #ffffff; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 100; backdrop-filter: blur(10px);
         }
     </style>
 </head>
 <body>
-    <img src="https://raw.githubusercontent.com/Gothwebz/XMEAlee/refs/heads/main/Butterfly%20GIF.gif" class="mariposa-gif">
 
-    <div id="stars-container"></div>
-    
-    <div class="neon-card">
-        <h1 class="friend-name">Alee</h1>
-        <div class="profile-pic"></div>
-        <div class="nationality-info">NACIONALIDAD: 🇵🇾</div>
+    <div id="intro-layer">
+        <div class="neon-btn-wrapper">
+            <button class="pasar-btn" onclick="entrarAlSistema()">Pasar</button>
+        </div>
     </div>
 
-    <div class="music-btn" id="music-trigger">🎵</div>
+    <div id="stars-container"></div>
+    <img src="https://raw.githubusercontent.com/Gothwebz/XMEAlee/refs/heads/main/Butterfly%20GIF.gif" class="mariposa-gif mariposa-intro-position">
+    
+    <div class="neon-card">
+        <div class="neon-numbers">1389102257</div>
+
+        <h1 class="friend-name" id="name-container">
+            <span>A</span><span>l</span><span>e</span><span>e</span>
+        </h1>
+        <div class="profile-pic"></div>
+        <div class="nationality-info">
+             
+            <img src="https://xatimg.com/image/NwWqsNfWvaIj.gif" class="flag-icon" alt="Paraguay">
+        </div>
+    </div>
+
+    <div class="music-btn" id="music-trigger">⏸</div>
 
     <audio id="bg-music" loop>
-        <source src="TU_LINK_DE_DROPBOX_AQUI" type="audio/mpeg">
+        <source src="https://www.dropbox.com/scl/fi/8u1ozn7t3frjg59d9roms/Acquiesce-Oasis-Lyrics.mp3?rlkey=1ev0iypuru5gz1zvqnipstiyy&st=k4poumar&raw=1" type="audio/mpeg">
     </audio>
 
     <script>
-        /* GENERADOR DE PARTÍCULAS MÁGICAS */
         const stars = document.getElementById('stars-container');
-        // Reduje un poco la cantidad para que no sea invasivo
+        const music = document.getElementById('bg-music');
+        const btn = document.getElementById('music-trigger');
+        const intro = document.getElementById('intro-layer');
+        const mariposa = document.querySelector('.mariposa-gif');
+
         for (let i = 0; i < 150; i++) {
             const star = document.createElement('div');
             star.className = 'star';
-            // Hacemos las partículas más pequeñas y delicadas
-            const size = Math.random() * 1.5 + 0.5 + 'px';
-            star.style.width = size;
-            star.style.height = size;
+            const size = Math.random() * 2 + 1 + 'px';
+            star.style.width = size; star.style.height = size;
             star.style.left = Math.random() * 100 + '%';
             star.style.top = Math.random() * 100 + '%';
-            // Hacemos que floten más lento
-            star.style.setProperty('--duration', (Math.random() * 10 + 5) + 's');
+            star.style.setProperty('--duration', (Math.random() * 8 + 4) + 's');
             star.style.animationDelay = Math.random() * 5 + 's';
             stars.appendChild(star);
         }
 
-        /* CONTROL DE AUDIO */
-        const music = document.getElementById('bg-music');
-        const btn = document.getElementById('music-trigger');
+        const nameContainer = document.getElementById('name-container');
+        const letterSpans = nameContainer.querySelectorAll('span');
+        const originalName = ['A', 'l', 'e', 'e'];
+        const newName = ['R', 'a', 'R', 'a'];
+        let isRaRa = false;
 
-        // ESTABLECER VOLUMEN INICIAL AL 60%
-        if (music) {
-            music.volume = 0.6;
+        function animateNameChange() {
+            const targetName = isRaRa ? originalName : newName;
+            letterSpans.forEach((span, index) => {
+                setTimeout(() => {
+                    span.classList.remove('letter-stomp');
+                    void span.offsetWidth;
+                    span.textContent = targetName[index];
+                    span.classList.add('letter-stomp');
+                }, index * 500); 
+            });
+            isRaRa = !isRaRa;
         }
-        
-        btn.onclick = function() {
-            if (music.paused) {
+
+        function entrarAlSistema() {
+            intro.style.opacity = '0';
+            setTimeout(() => { intro.style.display = 'none'; }, 1200);
+            mariposa.classList.remove('mariposa-intro-position');
+            
+            if (music) {
+                music.volume = 0.6;
                 music.play();
-                btn.innerHTML = "⏸";
-            } else {
-                music.pause();
-                btn.innerHTML = "🎵";
             }
+
+            setTimeout(() => {
+                animateNameChange();
+                setInterval(animateNameChange, 14000); 
+            }, 10000);
+        }
+
+        btn.onclick = function() {
+            if (music.paused) { music.play(); btn.innerHTML = "⏸"; }
+            else { music.pause(); btn.innerHTML = "🎵"; }
         };
     </script>
 </body>
