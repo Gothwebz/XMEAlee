@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Void Space | Paraguay</title>
     <style>
-        /* FONDO */
+        /* FONDO Y ESTRELLAS */
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             background: #000; overflow: hidden;
@@ -26,18 +26,21 @@
             0%, 100% { opacity: 0.2; transform: scale(0.8); }
             50% { opacity: 1; transform: scale(1.2); }
         }
+
+        /* TARJETA CON NEÓN GIRATORIO */
         .neon-card {
             position: relative; width: 320px; height: 450px;
             background: rgba(0, 0, 0, 0.9);
             border-radius: 25px; display: flex; flex-direction: column;
             align-items: center; justify-content: center; z-index: 10;
-            overflow: hidden;
+            overflow: hidden; /* Esto corta lo de adentro, por eso sacamos la mariposa */
             box-shadow: 0 0 50px rgba(129, 91, 255, 0.1);
         }
+
         .neon-card::before {
             content: ''; position: absolute;
             width: 150%; height: 150%;
-            background: conic-gradient(transparent, #815bff, transparent, #815bff, transparent);
+            background: conic-gradient(transparent, #ffffff, transparent, #ffffff, transparent);
             animation: rotate 6s linear infinite;
             z-index: -2;
         }
@@ -51,43 +54,57 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
+
         .friend-name {
             color: #fff; font-size: 2.2rem; letter-spacing: 8px;
             margin-bottom: 25px; text-transform: uppercase;
             font-weight: 300; text-shadow: 0 0 10px rgba(255,255,255,0.5);
         }
 
+        /* FOTO DE ALEE */
         .profile-pic {
             width: 170px; height: 170px; border-radius: 50%;
-            border: 1px solid rgba(129, 91, 255, 0.3);
-            background: url('https://via.placeholder.com/170') center/cover;
-            box-shadow: 0 0 30px rgba(129, 91, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: url('https://xatimg.com/image/vtWuGxDGgWZG.png') center/cover;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
         }
 
         .nationality-info {
             color: rgba(255, 255, 255, 0.6); margin-top: 30px;
             font-size: 0.75rem; letter-spacing: 3px; font-weight: bold;
         }
+
+        /* ESTILO DE LA MARIPOSA (AFUERA Y TRANSPARENTE) */
+        .mariposa-gif {
+            position: fixed;
+            z-index: 999;
+            /* Ubicación: ajustada para estar arriba a la derecha de la tarjeta */
+            top: 17%; 
+            left: 50%;
+            width: 250px; /* Tamaño que se vea bien */
+            height: auto;
+            mix-blend-mode: screen; /* Quita el fondo negro */
+            pointer-events: none;
+            filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.6));
+        }
+
         .music-btn {
             position: fixed; bottom: 40px; left: 40px;
             width: 45px; height: 45px; border-radius: 50%;
             background: rgba(0, 0, 0, 0.5);
-            border: 1px solid #815bff; color: #815bff;
+            border: 1px solid #ffffff; color: #ffffff;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; transition: 0.4s; z-index: 100;
             backdrop-filter: blur(10px);
         }
-        .music-btn:hover {
-            background: #815bff; color: #fff;
-            box-shadow: 0 0 20px #815bff;
-        }
     </style>
 </head>
 <body>
-<img src="https://raw.githubusercontent.com/Gothwebz/XMEAlee/refs/heads/main/Butterfly%20GIF.gif" class="mariposa-gif">
+    <img src="https://raw.githubusercontent.com/Gothwebz/XMEAlee/refs/heads/main/Butterfly%20GIF.gif" class="mariposa-gif">
+
     <div id="stars-container"></div>
+    
     <div class="neon-card">
-       
         <h1 class="friend-name">Alee</h1>
         <div class="profile-pic"></div>
         <div class="nationality-info">NACIONALIDAD: 🇵🇾</div>
@@ -96,11 +113,11 @@
     <div class="music-btn" id="music-trigger">🎵</div>
 
     <audio id="bg-music" loop>
-        <source src="TU_LINK_DE_DROPBOX_CON_RAW=1" type="audio/mpeg">
+        <source src="TU_LINK_DE_DROPBOX_AQUI" type="audio/mpeg">
     </audio>
 
     <script>
-        /* GENERADOR DE ESTRELLAS DINÁMICO */
+        /* GENERADOR DE ESTRELLAS */
         const stars = document.getElementById('stars-container');
         for (let i = 0; i < 200; i++) {
             const star = document.createElement('div');
@@ -115,7 +132,7 @@
             stars.appendChild(star);
         }
 
-        /* CONTROL DE AUDIO SIMPLE */
+        /* CONTROL DE AUDIO */
         const music = document.getElementById('bg-music');
         const btn = document.getElementById('music-trigger');
         
@@ -126,28 +143,8 @@
             } else {
                 music.pause();
                 btn.innerHTML = "🎵";
-            }}
-
-.mariposa-gif {
-    position: fixed;   /* Cambiamos a fixed para que no se mueva al hacer scroll */
-    z-index: 999;      /* Valor altísimo para que esté por encima de TODO */
-    
-    /* COORDENADAS: Ajústalas hasta verla en tu pantalla */
-    top: 150px;        
-    left: 200px;       
-    
-    width: 150px;      /* Tamaño visible */
-    height: auto;
-
-    /* EL TRUCO PARA QUITAR EL NEGRO */
-    mix-blend-mode: screen; 
-    
-    /* Para que no interfiera si quieres hacer clic en algo detrás */
-    pointer-events: none; 
-    
-    /* Brillo para que resalte en la oscuridad */
-    filter: drop-shadow(0 0 10px #815bff);
-}
+            }
+        };
     </script>
 </body>
 </html>
